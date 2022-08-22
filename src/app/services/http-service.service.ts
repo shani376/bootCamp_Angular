@@ -20,8 +20,8 @@ public getLocationsByIDFromServer(patientId: string):Observable<ILocation[]>{
 public postLocation(LocToSave: Location){
   return this.http.post("https://localhost:44381/api/Location", LocToSave);
 }
-public deleteLocation(LocToDelete: Location){
-  return this.http.delete(`https://localhost:44381/api/Location${LocToDelete.patientId}`);
+public deleteLocation(LocIdToDelete: Number){
+  return this.http.delete(`https://localhost:44381/api/Location/${LocIdToDelete}`);
 }
   constructor(private http: HttpClient) { }
 }

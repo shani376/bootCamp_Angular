@@ -38,8 +38,7 @@ addLocation(location: Location): void {
 }
 deleteLocation(location:Location):void{
   console.log(location);
-  
-  this.httpService.deleteLocation(location).subscribe(res=>this.getLocationsById(this.patientId!),err=>console.log(err));
+  this.httpService.deleteLocation(location.locationId!).subscribe(res=>this.getLocationsById(this.patientId!),err=>console.log(err));
 }
 getAllLocations():void{
   this.httpService.getAllLocationsFromServer().subscribe(locs=>{

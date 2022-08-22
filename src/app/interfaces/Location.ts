@@ -1,5 +1,6 @@
 import { ILocation } from "./ILocation";
 export class Location implements ILocation{
+    locationId?: Number;
     patientId:string;
     startDate:Date;
     endDate:Date;
