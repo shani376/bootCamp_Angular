@@ -1,0 +1,7 @@
+<p>Report Your Path!</p>
+<input type="text" placeholder="Patient ID" minlength="9" maxlength="9" [(ngModel)]="patientId" #ID="ngModel" />
+<div [hidden]="ID.valid">ID is required for length of 9 digits</div>
+<!-- //only if patientid is full -->
+<!-- //<app-form *ngIf="ID.valid" [patientId]="patientId"></app-form> -->
+<!-- <app-data-table [locations]="locations"></app-data-table> -->
+<location-table *ngIf="ID.valid" [patientId] = "patientId"></location-table>

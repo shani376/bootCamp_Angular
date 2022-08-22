@@ -1,0 +1,8 @@
+<form (ngSubmit)="postLocation()" #locForm="ngForm">
+    <input type="datetime-local" placeholder="start Date" name="startDate" required="" [(ngModel)]="startDate"/>
+    <input type="datetime-local" placeholder="end Date" name="endDate" required="" [(ngModel)]="endDate"/>
+    <input type="text" placeholder="city" name="city" required="" [(ngModel)]="city"/>
+    <input type="text" placeholder="address" name="address" required="" [(ngModel)]="address"/>
+    <button type="submit" [disabled]="!locForm.form.valid" >submit</button>
+</form>
+
