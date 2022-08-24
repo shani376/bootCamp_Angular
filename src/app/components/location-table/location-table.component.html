@@ -8,7 +8,9 @@
     </div> -->
   
     <div class="example-table-container">
-  
+      <mat-form-field appearance="standard">
+        <input (keyup)="applyFilter($event)" type="text" matInput  placeholder="filter" #input>
+      </mat-form-field>
       <table mat-table [dataSource]="dataSource" class="example-table"
       matSort #empTbSort="matSort">
         <ng-container matColumnDef="startDate">
@@ -42,7 +44,11 @@
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+        </tr>
       </table>
+      <mat-paginator [pageSizeOptions]="[20, 30, 40, 50]" aria-label="Select page of users"></mat-paginator>
     </div>
   
   </div>

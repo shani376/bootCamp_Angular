@@ -1,9 +1,8 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, ViewChild, AfterViewInit, Input, AfterContentInit } from '@angular/core';
-import { MatSort, SortDirection, Sort } from '@angular/material/sort';
+
+import { Component, ViewChild, Input, AfterContentInit } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort} from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { merge, Observable, of as observableOf } from 'rxjs';
-import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { ILocation } from 'src/app/interfaces/ILocation';
 import { Location } from 'src/app/interfaces/Location';
 import { HttpServiceService } from 'src/app/services/http-service.service';
@@ -19,6 +18,7 @@ export class LocationTableComponent implements AfterContentInit{
   
   @Input() patientId?: string;
   locations:ILocation[]=[];
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild('empTbSort') empTbSort = new MatSort();
   dataSource: MatTableDataSource<ILocation>;
   displayedColumns = ['startDate', 'endDate', 'city', 'address','delete'];
@@ -29,9 +29,16 @@ export class LocationTableComponent implements AfterContentInit{
     else{
       this.getLocationsById(this.patientId!);
     } 
-    // this.dataSource = new MatTableDataSource(this.locations);
-    // this.dataSource.sort = this.empTbSort;
 }
+
+applyFilter(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.dataSource.filter = filterValue.trim().toLowerCase();
+  if (this.dataSource.paginator) {
+    this.dataSource.paginator.firstPage()
+  }
+}
+
 addLocation(location: Location): void {
   this.httpService.postLocation(location).subscribe(res=>this.getLocationsById(this.patientId!),err=>console.log(err));
   
@@ -45,13 +52,15 @@ getAllLocations():void{
     this.locations=locs; 
     this.dataSource = new MatTableDataSource(this.locations);
     this.dataSource.sort = this.empTbSort;
+    this.dataSource.paginator = this.paginator;
     },err=>console.log(err))
 }
 getLocationsById(id:string):void{
   this.httpService.getLocationsByIDFromServer(id).subscribe(locs=>{
     this.locations=locs; 
     this.dataSource = new MatTableDataSource(this.locations);
-    this.dataSource.sort = this.empTbSort;},
+    this.dataSource.sort = this.empTbSort;
+    this.dataSource.paginator = this.paginator;},
     err=>console.log(err))
 }
 constructor(private httpService: HttpServiceService ) {
